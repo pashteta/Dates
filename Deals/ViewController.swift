@@ -25,6 +25,10 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
     }
+    
+    
+    
+    
     @IBAction func isEneblead(_ sender: Any) {
         
         if boolValueButton == false {
@@ -38,7 +42,6 @@ class ViewController: UIViewController {
         }
         
     }
-    
     
     @IBAction func isHidden(_ sender: Any) {
         
