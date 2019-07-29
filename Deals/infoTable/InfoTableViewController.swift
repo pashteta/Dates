@@ -25,7 +25,7 @@ class InfoTableViewController: UITableViewController{
 
         stateCells(index)
         tableView.tableFooterView = UIView()
-
+        resignFirstResponder()
     }
 
     // MARK: - Table view data source

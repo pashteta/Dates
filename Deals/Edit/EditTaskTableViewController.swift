@@ -27,7 +27,9 @@ class EditTaskTableViewController: UITableViewController,NSFetchedResultsControl
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         tableView.tableFooterView = UIView()
+        resignFirstResponder()
         
         if let b = boolValue {
             stateCells(index)
