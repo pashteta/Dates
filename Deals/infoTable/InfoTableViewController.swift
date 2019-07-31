@@ -9,42 +9,49 @@
 import UIKit
 
 class InfoTableViewController: UITableViewController{
-
+    
+    //MARK: - Outlets
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var priorityLabel: UILabel!
     @IBOutlet weak var placeLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     
+    @IBOutlet weak var dateTime: UIDatePicker!
+    
+    //MARK: Varibales
+    
     var arrayMeets: [Meets] = []
     var meetArray: Meets? 
-    var index = 0
+    var index: IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        stateCells(index)
+        
+        stateCells(index!)
         tableView.tableFooterView = UIView()
         resignFirstResponder()
+        
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
-
+    
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 4
     }
     
+    // MARK: - Table view cells settings
     
-    func stateCells(_ index: Int) {
-
-        meetArray = arrayMeets[index]
+    func stateCells(_ index: IndexPath) {
+        
+        meetArray = arrayMeets[index.row]
         
         titleLabel.text = meetArray?.name
         switch meetArray?.priority {
@@ -61,22 +68,22 @@ class InfoTableViewController: UITableViewController{
         descriptionLabel.text = meetArray?.information
         placeLabel.text = meetArray?.place
     }
-
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-         tableView.deselectRow(at: indexPath, animated: true)
-         //performSegue(withIdentifier: "showDetailSegue", sender: meetArray!)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     // MARK: - Navigation
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "dataEdit" {
-                let dvc = segue.destination as! EditTaskTableViewController
-                print(index)
-                dvc.arrayMeets = arrayMeets
-                dvc.index = index
-                dvc.boolValue = true
+            let dvc = segue.destination as! EditTaskTableViewController
+            
+            dvc.arrayMeets = arrayMeets
+            dvc.index = index
+            print(index)
+            dvc.boolValue = true
         }
         
         if segue.identifier == "mapSegue" {
@@ -87,5 +94,5 @@ class InfoTableViewController: UITableViewController{
     }
     
     
-
+    
 }

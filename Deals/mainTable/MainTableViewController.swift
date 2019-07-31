@@ -9,8 +9,9 @@
 import UIKit
 import CoreData
 
-class MainTableViewController: UITableViewController,NSFetchedResultsControllerDelegate {
-
+class MainTableViewController: UITableViewController,
+NSFetchedResultsControllerDelegate {
+    
     var arrayMeets: [Meets] = []
     var meets: Meets?
     var index = 0
@@ -18,10 +19,10 @@ class MainTableViewController: UITableViewController,NSFetchedResultsControllerD
     var filteredResultArray: [Meets] = []
     
     @IBOutlet weak var sortButton: UIBarButtonItem!
- 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         //запрос
         let fetchRequest: NSFetchRequest<Meets> = Meets.fetchRequest()
         //указание того как мы хотим видеть выходные данные сортируме по нейм
@@ -30,44 +31,42 @@ class MainTableViewController: UITableViewController,NSFetchedResultsControllerD
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
-            //инцииализировали и передали ему аргументы
-            fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            fetchResultsController.delegate = self
-            do {
-                //если данные пришли
-                try fetchResultsController.performFetch()
-                //то мы добавляем их в массив
-                arrayMeets = fetchResultsController.fetchedObjects!
-            } catch let error as NSError {
-                print("Error: \(error)")
-            }
+        //инцииализировали и передали ему аргументы
+        fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        fetchResultsController.delegate = self
+        do {
+            //если данные пришли
+            try fetchResultsController.performFetch()
+            //то мы добавляем их в массив
+            arrayMeets = fetchResultsController.fetchedObjects!
+        } catch let error as NSError {
+            print("Error: \(error)")
+        }
         
         tableView.rowHeight = UITableView.automaticDimension
         tableView.tableFooterView = UIView()
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return arrayMeets.count
     }
-
-    @IBAction func unwindSeque(segue: UIStoryboardSegue) {
-        
-    }
     
+    @IBAction func unwindSeque(segue: UIStoryboardSegue) {
+        self.tableView.reloadData()
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "CellMain", for: indexPath) as! MainTableViewCell
-
+        
         let mycell = configurecell(cell,indexPath)
-       
+        
         return mycell
     }
     
@@ -82,8 +81,11 @@ class MainTableViewController: UITableViewController,NSFetchedResultsControllerD
             print("Sort2")
         }
         
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
         ac.addAction(action)
         ac.addAction(secondAction)
+        ac.addAction(cancelAction)
         
         present(ac,animated: true,completion:nil)
         
@@ -92,7 +94,7 @@ class MainTableViewController: UITableViewController,NSFetchedResultsControllerD
     func configurecell(_ myCell: MainTableViewCell,_ indexPath: IndexPath) -> UITableViewCell{
         
         meets = arrayMeets[indexPath.row]
-      
+        
         myCell.nameLabel.text = meets?.name
         myCell.dateLabel.text = "non date"
         switch meets?.priority {
@@ -103,22 +105,26 @@ class MainTableViewController: UITableViewController,NSFetchedResultsControllerD
         case "2":
             myCell.priorityLabel.text = "Low"
         default:
-           myCell.priorityLabel.text = "High"
+            myCell.priorityLabel.text = "High"
         }
         
         return myCell
     }
     
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
         let delete = UITableViewRowAction(style: .default, title: "Удалить ") { (action, indexPath) in
-            self.arrayMeets.remove(at: indexPath.row)
+            
+            //self.arrayMeets.remove(at: indexPath.row)
+            //tableView.deleteRows(at: [indexPath], with: .fade)
+            
+            DataDelete.deleteData(&self.arrayMeets,indexPath)
             tableView.deleteRows(at: [indexPath], with: .fade)
             
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let context = appDelegate.persistentContainer.viewContext
-            let objectToDelete = self.fetchResultsController.object(at: indexPath)
-            context.delete(objectToDelete)
         }
         
         delete.backgroundColor = #colorLiteral(red: 0.3098039329, green: 0.01568627544, blue: 0.1294117719, alpha: 1)
@@ -126,8 +132,8 @@ class MainTableViewController: UITableViewController,NSFetchedResultsControllerD
         return [delete]
     }
     
-   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-         tableView.deselectRow(at: indexPath, animated: true)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -135,7 +141,7 @@ class MainTableViewController: UITableViewController,NSFetchedResultsControllerD
     }
     
     // MARK: - Navigation
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "detailSegue" {
@@ -143,11 +149,11 @@ class MainTableViewController: UITableViewController,NSFetchedResultsControllerD
             if let indexPath = tableView.indexPathForSelectedRow {
                 let dvc = segue.destination as! InfoTableViewController
                 dvc.arrayMeets = arrayMeets
-                dvc.index = indexPath.row
+                dvc.index = indexPath
             }
         }
         
     }
-
-
+    
+    
 }

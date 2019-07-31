@@ -24,8 +24,20 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+         var arrayTexts = [emailText,passwordText,repeatPasswordText]
+        
+         hiddenKeyboard(arrayTexts)
     }
     
+    func hiddenKeyboard(_ arrayText:[Any]) {
+        
+        for  i in arrayText {
+            if i is UITextField {
+                var aTransform = i as! UITextField
+                aTransform.resignFirstResponder()
+            }
+        }
+    }
     
     
     

@@ -17,11 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //Navigation bar settings 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-        UINavigationBar.appearance().barTintColor = #colorLiteral(red: 0.1294117719, green: 0.2156862766, blue: 0.06666667014, alpha: 1)
+        UINavigationBar.appearance().barTintColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
         UINavigationBar.appearance().tintColor = .white
         
         UITabBar.appearance().tintColor = .white
-        UITabBar.appearance().barTintColor = #colorLiteral(red: 0.1294117719, green: 0.2156862766, blue: 0.06666667014, alpha: 1)
+        UITabBar.appearance().barTintColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
         
         return true
     }

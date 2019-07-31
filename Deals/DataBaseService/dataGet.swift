@@ -25,7 +25,7 @@ class DataGet {
         //устанавливаем значения для всех его свойств
         
         for (index,item) in arrayFields.enumerated() {
-        
+            
             switch index {
             case 0:
                 arrayMeets.name = item.text
@@ -37,7 +37,7 @@ class DataGet {
                 return
             }
         }
-   
+        
         for elementsButton in arrayButtons {
             if elementsButton.backgroundColor == UIColor.red {
                 let valueTag = elementsButton.tag

@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 class EditTaskTableViewController: UITableViewController,NSFetchedResultsControllerDelegate {
-
+    
     @IBOutlet weak var titileTextEdit: UITextField!
     @IBOutlet weak var textFieldDescription: UITextField!
     @IBOutlet weak var placeTextEdit: UITextField!
@@ -20,9 +20,10 @@ class EditTaskTableViewController: UITableViewController,NSFetchedResultsControl
     @IBOutlet weak var choiceButton3: UIButton!
     
     var fetchResultsController: NSFetchedResultsController<Meets>!
+    
     var arrayMeets: [Meets] = []
     var meetArray: Meets?
-    var index = 0
+    var index: IndexPath?
     var boolValue: Bool?
     
     override func viewDidLoad() {
@@ -32,43 +33,43 @@ class EditTaskTableViewController: UITableViewController,NSFetchedResultsControl
         resignFirstResponder()
         
         if let b = boolValue {
-            stateCells(index)
+            stateCells(index!)
         }
         
     }
     
-    func stateCells(_ index: Int) {
-        print(index)
-        meetArray = arrayMeets[index]
+    func stateCells(_ index: IndexPath) {
+        
+        meetArray = arrayMeets[index.row]
         
         titileTextEdit.text = meetArray?.name
         switch meetArray?.priority {
         case "0":
             choiceButton1.backgroundColor = UIColor.red
         case "1":
-             choiceButton2.backgroundColor = UIColor.red
+            choiceButton2.backgroundColor = UIColor.red
         case "2":
             choiceButton3.backgroundColor = UIColor.red
-        default:3
+        default:
             break
         }
         
         textFieldDescription.text = meetArray?.information
         placeTextEdit.text = meetArray?.place
     }
-   
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 4
+        return 5
     }
-
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -85,24 +86,23 @@ class EditTaskTableViewController: UITableViewController,NSFetchedResultsControl
         } else {
             
             if boolValue != nil {
-                arrayMeets.remove(at: index)
-                
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                let context = appDelegate.persistentContainer.viewContext
-                let valuForObject:IndexPath = IndexPath(index: index)
-                let objectToDelete = fetchResultsController.object(at:valuForObject)
-                context.delete(objectToDelete)
+                DataDelete.deleteData(&arrayMeets,index)
             }
             
             let arrButtons = [choiceButton1,choiceButton2,choiceButton3]
             let arrFields = [titileTextEdit,textFieldDescription,placeTextEdit]
             let dataSave = DataGet()
             dataSave.getValue(arrButtons as! [UIButton],arrFields as! [UITextField])
-   
+            
             dismiss(animated: true, completion: nil)
+            
+            if boolValue != nil {
+                
+            }
+            
         }
     }
-   
+    
     @IBAction func isSelected(_ sender: Any) {
         
         let sender = sender as! UIButton
@@ -126,5 +126,5 @@ class EditTaskTableViewController: UITableViewController,NSFetchedResultsControl
     }
     
     // MARK: - Navigation
-   
+    
 }

@@ -9,20 +9,18 @@
 import UIKit
 
 class MainTableViewCell: UITableViewCell {
-
     
     @IBOutlet weak var priorityLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
     override func awakeFromNib() {
-        super.awakeFromNib()
-       
+        super.awakeFromNib()       
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-
+    
     
 }
