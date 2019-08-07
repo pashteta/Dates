@@ -11,6 +11,7 @@ import CoreData
 
 class EditTaskTableViewController: UITableViewController,NSFetchedResultsControllerDelegate {
     
+    // Элементы пользовательского интерфейса
     @IBOutlet weak var titileTextEdit: UITextField!
     @IBOutlet weak var textFieldDescription: UITextField!
     @IBOutlet weak var placeTextEdit: UITextField!
@@ -19,6 +20,8 @@ class EditTaskTableViewController: UITableViewController,NSFetchedResultsControl
     @IBOutlet weak var choiceButton2: UIButton!
     @IBOutlet weak var choiceButton3: UIButton!
     
+    @IBOutlet weak var dateTimeLabel: UIDatePicker!
+    
     var fetchResultsController: NSFetchedResultsController<Meets>!
     
     var arrayMeets: [Meets] = []
@@ -26,6 +29,7 @@ class EditTaskTableViewController: UITableViewController,NSFetchedResultsControl
     var index: IndexPath?
     var boolValue: Bool?
     
+     // MARK: - View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,6 +39,9 @@ class EditTaskTableViewController: UITableViewController,NSFetchedResultsControl
         if let b = boolValue {
             stateCells(index!)
         }
+        
+        //let dateTest = Date(from: 17.08 as! Decoder.2019)
+       // dateTimeLabel.date = Date(timeIntervalSince1970: <#T##TimeInterval#>)
         
     }
     
@@ -69,6 +76,8 @@ class EditTaskTableViewController: UITableViewController,NSFetchedResultsControl
         // #warning Incomplete implementation, return the number of rows
         return 5
     }
+    
+    
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)

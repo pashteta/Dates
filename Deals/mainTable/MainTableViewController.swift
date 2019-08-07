@@ -17,34 +17,44 @@ NSFetchedResultsControllerDelegate {
     var index = 0
     var fetchResultsController: NSFetchedResultsController<Meets>!
     var filteredResultArray: [Meets] = []
+    var context: NSManagedObjectContext!
     
     @IBOutlet weak var sortButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //запрос
-        let fetchRequest: NSFetchRequest<Meets> = Meets.fetchRequest()
-        //указание того как мы хотим видеть выходные данные сортируме по нейм
-        let sortDescriptor = NSSortDescriptor(key: "information",ascending: true)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        //инцииализировали и передали ему аргументы
-        fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-        fetchResultsController.delegate = self
-        do {
-            //если данные пришли
-            try fetchResultsController.performFetch()
-            //то мы добавляем их в массив
-            arrayMeets = fetchResultsController.fetchedObjects!
-        } catch let error as NSError {
-            print("Error: \(error)")
-        }
+       
+        getData()
         
         tableView.rowHeight = UITableView.automaticDimension
         tableView.tableFooterView = UIView()
+    }
+    
+    //MARK - Download current data from coreData
+    
+    func getData() {
+        
+        DataFirstGet.dataInit { (context) in
+            //запрос
+            let fetchRequest: NSFetchRequest<Meets> = Meets.fetchRequest()
+            //указание того как мы хотим видеть выходные данные сортируме по нейм
+            let sortDescriptor = NSSortDescriptor(key: "information",ascending: true)
+            fetchRequest.sortDescriptors = [sortDescriptor]
+            
+            //инцииализировали и передали ему аргументы
+            self.fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            self.fetchResultsController.delegate = self
+            
+            do {
+                //если данные пришли
+                try self.fetchResultsController.performFetch()
+                //то мы добавляем их в массив
+                self.arrayMeets = self.fetchResultsController.fetchedObjects!
+            } catch let error as NSError {
+                print("Error: \(error)")
+            }
+        }
+       
     }
     
     // MARK: - Table view data source
@@ -118,10 +128,7 @@ NSFetchedResultsControllerDelegate {
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
         let delete = UITableViewRowAction(style: .default, title: "Удалить ") { (action, indexPath) in
-            
-            //self.arrayMeets.remove(at: indexPath.row)
-            //tableView.deleteRows(at: [indexPath], with: .fade)
-            
+
             DataDelete.deleteData(&self.arrayMeets,indexPath)
             tableView.deleteRows(at: [indexPath], with: .fade)
             
@@ -154,6 +161,5 @@ NSFetchedResultsControllerDelegate {
         }
         
     }
-    
     
 }

@@ -17,7 +17,6 @@ class InfoTableViewController: UITableViewController{
     @IBOutlet weak var placeLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     
-    @IBOutlet weak var dateTime: UIDatePicker!
     
     //MARK: Varibales
     
@@ -82,7 +81,6 @@ class InfoTableViewController: UITableViewController{
             
             dvc.arrayMeets = arrayMeets
             dvc.index = index
-            print(index)
             dvc.boolValue = true
         }
         

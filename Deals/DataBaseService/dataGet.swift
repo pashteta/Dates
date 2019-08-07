@@ -15,7 +15,6 @@ class DataGet {
     private var fetchResultsController: NSFetchedResultsController<Meets>!
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
-    
     func getValue(_ arrayButtons: [UIButton], _ arrayFields: [UITextField] ) {
         
         let context = appDelegate.persistentContainer.viewContext
