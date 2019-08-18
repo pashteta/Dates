@@ -64,7 +64,11 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="My Tasks" id="VVo-Mt-7Ed">
-                        <barButtonItem key="leftBarButtonItem" title="Notify" style="plain" id="K0Q-us-FgL"/>
+                        <barButtonItem key="leftBarButtonItem" title="Notify" style="plain" id="K0Q-us-FgL">
+                            <connections>
+                                <action selector="behaviourNotification:" destination="Mv8-vb-2zK" id="CAe-gH-cn8"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem title="Sort" id="eEi-FB-0g2">
                                 <connections>
