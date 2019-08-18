@@ -82,6 +82,7 @@ NSFetchedResultsControllerDelegate {
     
     @IBAction func sortAction(_ sender: Any) {
         
+        tableView.isEditing = !tableView.isEditing
         let ac = UIAlertController(title: "Choose sort", message: "Выберите одну из сортировок", preferredStyle: .actionSheet)
         let action = UIAlertAction(title: "By Priority", style: .default) { (arrayMeets) in
             print("Sort")
@@ -145,6 +146,38 @@ NSFetchedResultsControllerDelegate {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
+    }
+    
+    //move
+    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let item = arrayMeets[sourceIndexPath.row]
+        arrayMeets.remove(at: sourceIndexPath.row)
+        arrayMeets.insert(item, at: destinationIndexPath.row)
+    }
+    
+    override func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+   
+    override func tableView(_ tableView: UITableView, canPerformAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
+        if action == #selector(copy(_:)) {
+            print("Copy")
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) {
+        if action == #selector(copy(_:)) {
+           let cell = tableView.cellForRow(at: indexPath)
+            let pasteBoard = UIPasteboard.general
+            pasteBoard.string = cell?.textLabel?.text
+        }
     }
     
     // MARK: - Navigation

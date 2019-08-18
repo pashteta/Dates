@@ -15,7 +15,7 @@ class DataGet {
     private var fetchResultsController: NSFetchedResultsController<Meets>!
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
-    func getValue(_ arrayButtons: [UIButton], _ arrayFields: [UITextField] ) {
+    func getValue(_ arrayButtons: [UIButton], _ arrayFields: [UITextField], _ datatimeLabel: UILabel ) {
         
         let context = appDelegate.persistentContainer.viewContext
         //создаем экземляр нашего класса в нашем контексте
@@ -44,6 +44,7 @@ class DataGet {
             }
         }
         
+        arrayMeets.dateMeeting = Date()
         //пытаемся сохранить значения
         do {
             try context.save()

@@ -27,6 +27,7 @@ class InfoTableViewController: UITableViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         stateCells(index!)
         tableView.tableFooterView = UIView()
         resignFirstResponder()
