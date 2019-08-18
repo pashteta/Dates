@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InfoTableViewController: UITableViewController{
+class InfoTableViewController: UITableViewController {
     
     //MARK: - Outlets
     
@@ -26,7 +26,6 @@ class InfoTableViewController: UITableViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         stateCells(index!)
         tableView.tableFooterView = UIView()

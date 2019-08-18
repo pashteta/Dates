@@ -101,7 +101,7 @@ class EditTaskTableViewController: UITableViewController,NSFetchedResultsControl
             let arrButtons = [choiceButton1,choiceButton2,choiceButton3]
             let arrFields = [titileTextEdit,textFieldDescription,placeTextEdit]
             let dataSave = DataGet()
-            dataSave.getValue(arrButtons as! [UIButton],arrFields as! [UITextField],dateTimeLabel)
+            dataSave.getValue(arrButtons as! [UIButton],arrFields as! [UITextField])
             
             dismiss(animated: true, completion: nil)
             
